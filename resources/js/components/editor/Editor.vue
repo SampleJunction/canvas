@@ -14,6 +14,11 @@
                         <i class="far fa-fw fa-image text-muted"></i>
                     </button>
                     <button class="btn btn-outline-light btn-circle border mr-1" type="button"
+                            @click="openThumbnailUploader()"
+                            data-toggle="modal" data-target="#thumbnail_image-upload">
+                        <i class="far fa-fw fa-image text-muted"></i>
+                    </button>
+                    <button class="btn btn-outline-light btn-circle border mr-1" type="button"
                             @click="$emit('openingHTMLEmbedder')" v-on:submit.prevent="onSubmit"
                             data-toggle="modal" data-target="#embed-html">
                         <i class="fas fa-fw fa-code text-muted"></i>
@@ -48,6 +53,7 @@
     import DividerBlot from './DividerBlot'
     import HTMLEmbedder from './HTMLEmbedder'
     import ImageUploader from './ImageUploader'
+    import ThumbnailUploader from './ThumbnailUploader'
 
     /**
      * Create an instance of the QuillJS editor.
@@ -57,7 +63,8 @@
     export default {
         components: {
             'html-embedder': HTMLEmbedder,
-            'image-uploader': ImageUploader
+            'image-uploader': ImageUploader,
+            'thumbnail-uploader': ThumbnailUploader
         },
 
         props: {
@@ -198,6 +205,10 @@
             // Open the image upload modal
             openImageUploader(data = null) {
                 this.$emit('openingImageUploader', data);
+            },
+
+            openThumbnailUploader(data = null) {
+                this.$emit('openThumbnailUploader', data);
             },
 
             // Add a new captioned image to the content

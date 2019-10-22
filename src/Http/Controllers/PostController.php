@@ -52,7 +52,6 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $post = Post::findOrFail($id);
-
         $data = [
             'post'   => $post,
             'meta'   => $post->meta,
@@ -126,6 +125,7 @@ class PostController extends Controller
      */
     public function update(string $id)
     {
+        dd(request()->all());
         $post = Post::findOrFail($id);
         $data = [
             'id'                     => request('id'),

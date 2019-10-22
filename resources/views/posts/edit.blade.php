@@ -28,6 +28,9 @@
             <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-seo">
                 {{ __('canvas::nav.controls.seo') }}
             </a>
+            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-thumbnail_image">
+                {{ __('ThumbNail Image') }}
+            </a>
             <a href="#" class="dropdown-item text-danger" data-toggle="modal" data-target="#modal-delete">
                 {{ __('canvas::buttons.general.delete') }}
             </a>

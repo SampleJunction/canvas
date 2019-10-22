@@ -17,5 +17,6 @@
     @include('canvas::components.modals.post.create.settings')
     @include('canvas::components.modals.post.create.publish')
     @include('canvas::components.modals.post.create.image')
+    @include('canvas::components.modals.post.create.thumbnail_image')
     @include('canvas::components.modals.post.create.seo')
 </form>
