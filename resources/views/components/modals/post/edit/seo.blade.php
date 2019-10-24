@@ -54,18 +54,17 @@
                         </div>
                     </div>
                 @endisset
-                @isset($data['post']->meta_tags)
+
                     <div class="form-group row">
                         <div class="col-12">
                             <label for="canonical_link" class="font-weight-bold">{{ __('Meta Tags') }}</label>
                             <textarea class="form-control border-0 px-0"
                                    name="meta_tags" title="{{ __('Meta Tag') }}"
                                    placeholder="* Meta Tags should be seperated by New Line">
-                                {{{$data['meta_tags']}}}
+                                @isset($data['post']->meta_tags){{{$data['meta_tags']}}}@endisset
                            </textarea>
                         </div>
                     </div>
-                @endisset
             </div>
             <div class="modal-footer">
                 <button class="btn btn-link text-muted" data-dismiss="modal">{{ __('canvas::buttons.general.done') }}</button>
