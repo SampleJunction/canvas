@@ -58,8 +58,8 @@ class PostController extends Controller
             'tags'   => Tag::all(['name', 'slug']),
             'topics' => Topic::all(['name', 'slug']),
         ];
-        $tag = str_replace('<br />', PHP_EOL, implode(' ', json_decode($data['post']->meta_tags,true)));
-        return view('canvas::posts.edit', compact('data','tag'));
+        $data['meta_tags'] = nl2br(implode("\n", json_decode($data['post']->meta_tags, true)));
+        return view('canvas::posts.edit', compact('data'));
     }
 
     /**
