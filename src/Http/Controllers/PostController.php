@@ -58,7 +58,8 @@ class PostController extends Controller
             'tags'   => Tag::all(['name', 'slug']),
             'topics' => Topic::all(['name', 'slug']),
         ];
-        return view('canvas::posts.edit', compact('data'));
+        $tag = str_replace('<br />', PHP_EOL, implode(' ', json_decode($data['post']->meta_tags,true)));
+        return view('canvas::posts.edit', compact('data','tag'));
     }
 
     /**
@@ -69,6 +70,15 @@ class PostController extends Controller
      */
     public function store()
     {
+        $thumbnail = [];
+        if(request()->hasFile('thumbnail_image')){
+            $file = request()->file('thumbnail_image');
+            $file_name = $file->getClientOriginalName();
+            $uploadPath = storage_path().DIRECTORY_SEPARATOR.'app\public\article\images'.DIRECTORY_SEPARATOR;
+            $file->move( $uploadPath, $file_name);
+            $thumbnail['thumbnail_image'] = '/storage/article/images/'.$file_name;
+            $thumbnail['thumbnail_image_caption'] = null;
+        }
         $data = [
             'id'                     => request('id'),
             'slug'                   => request('slug'),
@@ -87,13 +97,13 @@ class PostController extends Controller
                 'twitter_description' => request('twitter_description', null),
                 'canonical_link'      => request('canonical_link', null),
             ],
+            'meta_tags'                => json_encode(explode(PHP_EOL, request()->meta_tags)),
         ];
-
+        $data = array_merge($data, $thumbnail);
         $messages = [
             'required' => __('canvas::validation.required'),
             'unique'   => __('canvas::validation.unique'),
         ];
-
         validator($data, [
             'title'        => 'required',
             'slug'         => 'required|'.Rule::unique('canvas_posts', 'slug')->ignore(request('id')).'|regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/i',
@@ -125,8 +135,17 @@ class PostController extends Controller
      */
     public function update(string $id)
     {
-        dd(request()->all());
         $post = Post::findOrFail($id);
+        $thumbnail = [];
+        if(request()->hasFile('thumbnail_image')){
+            $file = request()->file('thumbnail_image');
+            $file_name = $file->getClientOriginalName();
+            /*$uploadPath = storage_path().DIRECTORY_SEPARATOR.'app\public\article\images'.DIRECTORY_SEPARATOR;*/
+            $uploadPath = public_path() .DIRECTORY_SEPARATOR. 'thumbnail\article\images'.DIRECTORY_SEPARATOR;
+            $file->move( $uploadPath, $file_name);
+            $thumbnail['thumbnail_image'] = '/thumbnail/article/images/'.$file_name;
+            $thumbnail['thumbnail_image_caption'] = null;
+        }
         $data = [
             'id'                     => request('id'),
             'slug'                   => request('slug'),
@@ -146,8 +165,9 @@ class PostController extends Controller
                 'twitter_description' => request('twitter_description', null),
                 'canonical_link'      => request('canonical_link', null),
             ],
+            'meta_tags'                => json_encode(explode(PHP_EOL, request()->meta_tags)),
         ];
-
+        $data = array_merge($data, $thumbnail);
         $messages = [
             'required' => __('canvas::validation.required'),
             'unique'   => __('canvas::validation.unique'),

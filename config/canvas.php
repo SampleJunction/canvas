@@ -75,5 +75,13 @@ return [
     'mail' => [
         'enabled' => env('CANVAS_MAIL_ENABLED', false),
     ],
+    'canvas_status' => [
+        'draft' => 'draft',
+        'published' => 'published',
+        'pending' => 'pending',
+        'private' => 'private',
+        'trash' => 'trash',
+    ],
+
 
 ];

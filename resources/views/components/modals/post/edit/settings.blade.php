@@ -21,8 +21,8 @@
                     <div class="col-12">
                         <label for="post_status" class="font-weight-bold">{{ __('Post Status') }}</label>
                         <select class="form-control" name="post_status">
-                            @foreach(config('settings.canvas_status') as $name => $status)
-                                <option @if($data['post']->post_status==$name) selected @endif value="{{$name}}">{{$status}}</option>
+                            @foreach(config('canvas.canvas_status') as $name => $status)
+                                <option value="{{$name}}">{{$status}}</option>
                             @endforeach
                         </select>
                     </div>
