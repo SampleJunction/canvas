@@ -1,5 +1,5 @@
 {
-    "name": "cnvs/canvas",
+    "name": "samplejunction/cnvs/canvas",
     "description": "A Laravel publishing platform",
     "keywords": ["canvas", "laravel", "publishing", "platform"],
     "license": "MIT",
