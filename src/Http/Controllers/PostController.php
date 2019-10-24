@@ -39,8 +39,7 @@ class PostController extends Controller
             'tags'   => Tag::all(['name', 'slug']),
             'topics' => Topic::all(['name', 'slug']),
         ];
-        $postStatus = PostStatus::all();
-        return view('canvas::posts.create', compact('data','postStatus'));
+        return view('canvas::posts.create', compact('data'));
     }
 
     /**
