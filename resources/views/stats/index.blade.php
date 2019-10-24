@@ -32,8 +32,9 @@
                             <div class="card-body">
                                 <h5 class="card-title text-muted small text-uppercase font-weight-bold">{{ __('canvas::stats.cards.publishing.title') }}</h5>
                                 <ul>
-                                    <li>{{ $data['posts']['published_count'] }} {{ __('canvas::stats.cards.publishing.details.published') }}</li>
-                                    <li>{{ $data['posts']['drafts_count'] }} {{ __('canvas::stats.cards.publishing.details.drafts') }}</li>
+                                    @foreach($data['posts']['status_count'] as $name => $count)
+                                        <li>{{ $count }} {{ $name }}</li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>

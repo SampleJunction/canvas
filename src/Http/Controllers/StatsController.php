@@ -25,11 +25,25 @@ class StatsController extends Controller
      */
     public function index()
     {
-        $published = Post::select('id', 'title', 'body', 'published_at', 'created_at')
+        $published = Post::select('id', 'title', 'body', 'published_at', 'created_at','post_status')
             ->published()
             ->orderByDesc('created_at')
             ->withCount('views')
             ->get();
+        $status_count = [];
+        foreach(config('canvas.canvas_status') as $name => $value){
+            $count = [];
+            foreach($published as $post){
+                if($post->post_status==$name){
+                    $count[] = $post->id;
+                    $status_count[$name] = $count;
+                }
+            }
+        }
+        foreach ($status_count as $key => $value){
+            $status_count[$key] = count($value);
+        }
+
         // Append the estimated reading time
         $published->each->append('read_time');
 
@@ -38,12 +52,12 @@ class StatsController extends Controller
             now()->subDays(self::DAYS_PRIOR)->toDateTimeString(),
             now()->toDateTimeString(),
         ])->select('created_at')->get();
-
         $data = [
             'posts' => [
                 'all'             => $published,
                 'published_count' => $published->count(),
                 'drafts_count'    => Post::draft()->count(),
+                'status_count'    => $status_count,
             ],
             'views' => [
                 'count' => $views->count(),
