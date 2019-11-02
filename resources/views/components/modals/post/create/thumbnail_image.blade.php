@@ -2,7 +2,7 @@
     <div class="modal-dialog" id="thumbnail_image-unsplash-modal" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <p class="font-weight-bold lead">{{ __('ThumbNail Image') }}</p>
+                <p class="font-weight-bold lead">{{ __('Thumbnail') }}</p>
 
                 {{--<thumbnail-image-uploader
                     :post="'{{ $data['post']->id }}'"

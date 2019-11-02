@@ -20,7 +20,7 @@
                 {{ __('canvas::nav.controls.image') }}
             </a>
             <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-thumbnail_image">
-                {{ __('ThumbNail Image') }}
+                {{ __('Thumbnail') }}
             </a>
             <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-seo">
                 {{ __('canvas::nav.controls.seo') }}
