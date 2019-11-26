@@ -18,6 +18,6 @@
     @include('canvas::components.modals.post.edit.settings')
     @include('canvas::components.modals.post.edit.publish')
     @include('canvas::components.modals.post.edit.image')
-    @include('canvas::components.modals.post.edit.thumbnail_image')
+    @include('canvas::components.modals.post.edit.thumbnail_image',$post)
     @include('canvas::components.modals.post.edit.seo')
 </form>

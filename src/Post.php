@@ -239,7 +239,7 @@ class Post extends Model
      */
     public function scopePublished($query): Builder
     {
-        return $query->where('published_at', '<=', now()->toDateTimeString());
+        return $query->where('post_status', '=', config('canvas.canvas_status.published'));
     }
 
     /**
@@ -250,6 +250,17 @@ class Post extends Model
      */
     public function scopeDraft($query): Builder
     {
-        return $query->where('published_at', '>', now()->toDateTimeString());
+        return $query->where('post_status', '=', config('canvas.canvas_status.draft'));
     }
+
+    public function scopePrivate($query): Builder
+    {
+        return $query->where('post_status', '=', config('canvas.canvas_status.private'));
+    }
+
+    public function scopeTrash($query): Builder
+    {
+        return $query->where('post_status', '=', config('canvas.canvas_status.trash'));
+    }
+
 }

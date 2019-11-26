@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Validation\Rule;
 use Illuminate\Routing\Controller;
+use Canvas\Events\ArticlesUpdated;
 
 class PostController extends Controller
 {
@@ -58,9 +59,11 @@ class PostController extends Controller
             'topics' => Topic::all(['name', 'slug']),
         ];
         if($data['post']->meta_tags){
-            $data['meta_tags'] = str_replace('<br />', PHP_EOL, nl2br(implode("\n", json_decode($data['post']->meta_tags, true))));
+            //$data['meta_tags'] = str_replace('<br />', PHP_EOL, nl2br(implode("\n", json_decode($data['post']->meta_tags, true))));
+            $data['meta_tags'] = str_replace('<br />', "\n", nl2br(implode("\n", json_decode($data['post']->meta_tags, true))));
+            $data['meta_tags'] = preg_replace('/[\r\n]+/', "\n", $data['meta_tags']);
         }
-        return view('canvas::posts.edit', compact('data'));
+        return view('canvas::posts.edit', compact('data','post'));
     }
 
     /**
@@ -74,7 +77,8 @@ class PostController extends Controller
         $thumbnail = [];
         if(request()->hasFile('thumbnail_image')){
             $file = request()->file('thumbnail_image');
-            $file_name = $file->getClientOriginalName();
+            $file_format = explode('.',$file->getClientOriginalName())[1];
+            $file_name = strtotime('now').'_'.str_random(10).".$file_format";
             $uploadPath = storage_path().DIRECTORY_SEPARATOR.'app\public\article\images'.DIRECTORY_SEPARATOR;
             $file->move( $uploadPath, $file_name);
             $thumbnail['thumbnail_image'] = '/storage/article/images/'.$file_name;
@@ -124,6 +128,7 @@ class PostController extends Controller
         $post->topic()->sync(
             $this->attachOrCreateTopic(request('topic') ?? [])
         );
+        event(new ArticlesUpdated());
         return redirect(route('canvas.post.edit', $post->id))->with('notify', __('canvas::nav.notify.success'));
     }
 
@@ -140,13 +145,14 @@ class PostController extends Controller
         $thumbnail = [];
         if(request()->hasFile('thumbnail_image')){
             $file = request()->file('thumbnail_image');
-            $file_name = $file->getClientOriginalName();
+            $file_format = explode('.',$file->getClientOriginalName())[1];
+            $file_name = strtotime('now').'_'.str_random(10).".$file_format";
             /*$uploadPath = storage_path().DIRECTORY_SEPARATOR.'app\public\article\images'.DIRECTORY_SEPARATOR;*/
-            $uploadPath = public_path() .DIRECTORY_SEPARATOR. 'thumbnail\article\images'.DIRECTORY_SEPARATOR;
+            $uploadPath = storage_path().DIRECTORY_SEPARATOR.'app\public\article\images'.DIRECTORY_SEPARATOR;
             $file->move( $uploadPath, $file_name);
-            $thumbnail['thumbnail_image'] = '/thumbnail/article/images/'.$file_name;
-            $thumbnail['thumbnail_image_caption'] = null;
+            $thumbnail['thumbnail_image'] = '/storage/article/images/'.$file_name;
         }
+        $thumbnail['thumbnail_image_caption'] =  request('thumbnail_image_caption',null);
         $data = [
             'id'                     => request('id'),
             'slug'                   => request('slug'),
@@ -191,6 +197,7 @@ class PostController extends Controller
         $post->topic()->sync(
             $this->attachOrCreateTopic(request('topic') ?? [])
         );
+        event(new ArticlesUpdated());
         return redirect(route('canvas.post.edit', $post->id))->with('notify', __('canvas::nav.notify.success'));
     }
 

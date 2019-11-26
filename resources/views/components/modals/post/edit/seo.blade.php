@@ -54,15 +54,14 @@
                         </div>
                     </div>
                 @endisset
-
                     <div class="form-group row">
                         <div class="col-12">
                             <label for="canonical_link" class="font-weight-bold">{{ __('Meta Tags') }}</label>
                             <textarea class="form-control border-0 px-0"
                                    name="meta_tags" title="{{ __('Meta Tag') }}"
-                                   placeholder="* Meta Tags should be seperated by New Line">
-                                @isset($data['post']->meta_tags){{{$data['meta_tags']}}}@endisset
-                           </textarea>
+                                   placeholder="* Meta Tags should be seperated by New Line"
+                                   style="width: 400px; height: 100px;"
+                            >@isset($data['post']->meta_tags){{{ltrim(preg_replace('/[ \t]+/', ' ', $data['meta_tags']))}}}@endisset</textarea>
                         </div>
                     </div>
             </div>

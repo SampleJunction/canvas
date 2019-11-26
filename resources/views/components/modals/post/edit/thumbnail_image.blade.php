@@ -2,6 +2,14 @@
     <div class="modal-dialog" id="thumbnail_image-unsplash-modal" role="document">
         <div class="modal-content">
             <div class="modal-body">
+                @if($post->thumbnail_image)
+                <div id="current-image">
+                    <img src="{{asset($post->thumbnail_image)}}" class="w-100">
+                    <div class="input-group py-2">
+                        <input type="text" name="thumbnail_image_caption" title="Thumbnail Image Caption"  @if($post->thumbnail_image_caption) placeholder="{{$post->thumbnail_image_caption}}" @else placeholder="Type caption for image (optional)" @endif class="form-control border-0 px-0">
+                    </div>
+                </div>
+                @endif
                 <p class="font-weight-bold lead">{{ __('Thumbnail') }}</p>
 
                 {{--<thumbnail-image-uploader
