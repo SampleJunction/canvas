@@ -2,6 +2,7 @@
     <div class="modal-dialog" id="thumbnail_image-unsplash-modal" role="document">
         <div class="modal-content">
             <div class="modal-body">
+                {{--@php dd($post->thumbnail_image); @endphp--}}
                 @if($post->thumbnail_image)
                 <div id="current-image">
                     <img src="{{asset($post->thumbnail_image)}}" class="w-100">
