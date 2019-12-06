@@ -80,7 +80,7 @@ class PostController extends Controller
             $file_format = explode('.',$file->getClientOriginalName())[1];
             $file_name = strtotime('now').'_'.str_random(10).".$file_format";
             //$uploadPath = storage_path().DIRECTORY_SEPARATOR.'app\public\article\images'.DIRECTORY_SEPARATOR;
-            $uploadPath = storage_path().DIRECTORY_SEPARATOR.config('canvas.thumbnail_storage_path');
+            $uploadPath = storage_path(config('canvas.thumbnail_storage_path'));
             $file->move( $uploadPath, $file_name);
             $thumbnail['thumbnail_image'] = '/storage/article/images/'.$file_name;
             $thumbnail['thumbnail_image_caption'] = null;
@@ -148,9 +148,7 @@ class PostController extends Controller
             $file = request()->file('thumbnail_image');
             $file_format = explode('.',$file->getClientOriginalName())[1];
             $file_name = strtotime('now').'_'.str_random(10).".$file_format";
-            /*$uploadPath = storage_path().DIRECTORY_SEPARATOR.'app\public\article\images'.DIRECTORY_SEPARATOR;*/
-            /*$uploadPath = storage_path().DIRECTORY_SEPARATOR.'app\public\article\images'.DIRECTORY_SEPARATOR;*/
-            $uploadPath = storage_path().DIRECTORY_SEPARATOR.config('canvas.thumbnail_storage_path');
+            $uploadPath = storage_path(config('canvas.thumbnail_storage_path'));
             $file->move( $uploadPath, $file_name);
             $thumbnail['thumbnail_image'] = '/storage/article/images/'.$file_name;
         }
