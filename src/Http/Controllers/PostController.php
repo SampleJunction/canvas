@@ -11,6 +11,7 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Validation\Rule;
 use Illuminate\Routing\Controller;
 use Canvas\Events\ArticlesUpdated;
+use Storage;
 
 class PostController extends Controller
 {
@@ -82,6 +83,9 @@ class PostController extends Controller
             //$uploadPath = storage_path().DIRECTORY_SEPARATOR.'app\public\article\images'.DIRECTORY_SEPARATOR;
             $uploadPath = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.config('canvas.thumbnail_storage_path'));
             $file->move( $uploadPath, $file_name);
+            if(gethostname() == "app2"){
+                Storage::disk('sftp')->put('/storage/app/public/article/images/'.$file_name, $uploadPath.$file_name);
+            }
             $thumbnail['thumbnail_image'] = '/storage/article/images/'.$file_name;
             $thumbnail['thumbnail_image_caption'] = null;
         }
@@ -152,6 +156,9 @@ class PostController extends Controller
             /*$uploadPath = storage_path().DIRECTORY_SEPARATOR.'app\public\article\images'.DIRECTORY_SEPARATOR;*/
 			 $uploadPath = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.config('canvas.thumbnail_storage_path'));
             $file->move( $uploadPath, $file_name);
+            if(gethostname() == "app2"){
+                Storage::disk('sftp')->put('/storage/app/public/article/images/'.$file_name, $uploadPath.$file_name);
+            }
             $thumbnail['thumbnail_image'] = '/storage/article/images/'.$file_name;
         }
         $thumbnail['thumbnail_image_caption'] =  request('thumbnail_image_caption',null);
